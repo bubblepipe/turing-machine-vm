@@ -175,8 +175,28 @@ fn load_memory_from_file(filename: &str) -> io::Result<Vec<String>> {
     let contents = fs::read_to_string(filename)?;
     let memory: Vec<String> = contents
         .lines()
-        .filter(|line| !line.trim().is_empty())
-        .map(|line| line.trim().to_string())
+        .filter_map(|line| {
+            let line = line.trim();
+            // Skip empty lines and comments
+            if line.is_empty() || line.starts_with("//") || line.starts_with("#") {
+                None
+            } else {
+                // Remove inline comments
+                let line = if let Some(pos) = line.find("//") {
+                    line[..pos].trim()
+                } else if let Some(pos) = line.find("#") {
+                    line[..pos].trim()
+                } else {
+                    line
+                };
+                
+                if line.is_empty() {
+                    None
+                } else {
+                    Some(line.to_string())
+                }
+            }
+        })
         .collect();
     Ok(memory)
 }
