@@ -159,14 +159,15 @@ impl VM {
         println!("================\n");
     }
 
-    fn run_steps(&mut self, steps: usize) {
+    fn run_steps(&mut self, steps: usize) -> bool {
         for _ in 0..steps {
             if !self.execute_instruction() {
                 self.print_state();
-                return;
+                return false;
             }
         }
         self.print_state();
+        true
     }
 }
 
@@ -221,7 +222,10 @@ fn main() {
                     println!("Please enter a positive number of steps");
                     continue;
                 }
-                vm.run_steps(steps);
+                if !vm.run_steps(steps) {
+                    println!("Program terminated. Exiting REPL.");
+                    break;
+                }
             }
             Err(_) => {
                 println!("Invalid input. Please enter a number or 'q' to quit");
