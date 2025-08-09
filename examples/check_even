@@ -1,0 +1,29 @@
+# Check if a number is even or odd
+# The number to check is at position 11
+# Result: position 12 will be 1 if even, 0 if odd
+
+# Main loop - divide by 2 using repeated subtraction
+beqz-pred $11 $7  # Position 0: If number is 0, it's even (jump to set_even)
+beqz-pred $11 $9  # Position 1: Check again (if was 1, now 0, jump to set_odd)
+beqz-pred $11 $11 # Position 2: Decrement by 1 (first subtraction)
+beqz-pred $11 $9  # Position 3: If now 0, was 1, so odd (jump to set_odd)
+beqz-pred $11 $11 # Position 4: Decrement by 1 (second subtraction) 
+beqz-pred $13 $0  # Position 5: Jump back to start (position 13 is always 0)
+
+# Unused position
+0                 # Position 6: Unused
+
+# Set result to 1 (even)
+succ $12          # Position 7: Set result to 1 (even)
+beqz-pred $13 $10 # Position 8: Jump to exit (position 13 is always 0)
+
+# Set result to 0 (odd) - it's already 0, so just exit
+beqz-pred $13 $10 # Position 9: Jump to exit (position 13 is always 0)
+
+# Exit
+exit              # Position 10: Exit instruction
+
+# Data
+5                 # Position 11: Number to check (change this value)
+0                 # Position 12: Result (1 = even, 0 = odd)
+0                 # Position 13: Always 0 (used for unconditional jumps)

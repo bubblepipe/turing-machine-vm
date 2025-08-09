@@ -1,3 +1,4 @@
-succ $2
-exit
-0
+# Simple example - increment register at position 2
+succ $2    # Increment value at address 2
+exit       # Exit program
+0          # Data value (will become 1)

@@ -1,11 +1,13 @@
-beqz-pred $4 $6
-succ &5
-succ $5
-beqz-pred $4 $0
-4
-7
-exit
-0
-0
-0
-0
+# Loop example - increment 4 memory locations
+beqz-pred $4 $7   # Position 0: Check counter at position 4, jump to exit at 7 if 0
+succ &5           # Position 1: Increment value at address pointed by register 5
+succ $5           # Position 2: Move pointer to next location
+beqz-pred $6 $0   # Position 3: Jump back to start (position 6 is always 0)
+4                 # Position 4: Counter (loop 4 times)
+8                 # Position 5: Pointer to first data location
+0                 # Position 6: Always 0 (used for unconditional jump)
+exit              # Position 7: Exit instruction
+0                 # Position 8: Data location 1
+0                 # Position 9: Data location 2
+0                 # Position 10: Data location 3
+0                 # Position 11: Data location 4
