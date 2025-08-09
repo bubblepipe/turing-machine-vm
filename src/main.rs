@@ -205,7 +205,7 @@ fn main() {
     vm.print_state();
     
     loop {
-        print!("Enter number of steps to execute (or 'q' to quit): ");
+        print!("Enter number of steps to execute (enter for step 1, or 'q' to quit): ");
         io::stdout().flush().unwrap();
         
         let mut input = String::new();
@@ -216,19 +216,26 @@ fn main() {
             break;
         }
         
-        match input.parse::<usize>() {
-            Ok(steps) => {
-                if steps == 0 {
-                    println!("Please enter a positive number of steps");
-                    continue;
-                }
-                if !vm.run_steps(steps) {
-                    println!("Program terminated. Exiting REPL.");
-                    break;
-                }
+        if input.is_empty() {
+            if !vm.run_steps(1) {
+                println!("Program terminated. Exiting REPL.");
+                break;
             }
-            Err(_) => {
-                println!("Invalid input. Please enter a number or 'q' to quit");
+        } else {
+            match input.parse::<usize>() {
+                Ok(steps) => {
+                    if steps == 0 {
+                        println!("Please enter a positive number of steps");
+                        continue;
+                    }
+                    if !vm.run_steps(steps) {
+                        println!("Program terminated. Exiting REPL.");
+                        break;
+                    }
+                }
+                Err(_) => {
+                    println!("Invalid input. Please enter a number or 'q' to quit");
+                }
             }
         }
     }
