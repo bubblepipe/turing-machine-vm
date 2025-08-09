@@ -1,0 +1,11 @@
+beqz-pred $4 $6
+succ &5
+succ $5
+beqz-pred $4 $0
+4
+7
+exit
+0
+0
+0
+0
